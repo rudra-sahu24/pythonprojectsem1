@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment - Delhi Booking</title>
+    <style>
+        /* General styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f7f9fc;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background: linear-gradient(135deg, #007BFF, #5A67D8);
+            color: #fff;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin: 0;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            margin: 10px 0 0;
+        }
+
+        .main-content {
+            padding: 30px 10%;
+            flex: 1;
+        }
+
+        form {
+            width: 100%;
+            max-width: 500px;
+            background: #fff;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            margin: 0 auto;
+        }
+
+        h2 {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            font-size: 1rem;
+            color: #333;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: #007BFF;
+            outline: none;
+        }
+
+        #qr-container {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        #qr-container img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #007BFF;
+            color: #fff;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #confirmation {
+            display: none;
+            text-align: center;
+            background: #e0ffe6;
+            color: #2a7d34;
+            border: 2px solid #2a7d34;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 30px;
+        }
+
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 15px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Payment</h1>
+        <p>Complete Your Booking</p>
+    </header>
+
+    <div class="main-content">
+        <form id="paymentForm">
+            <h2>Select Payment Method</h2>
+
+            <div class="form-group">
+                <label for="paymentMethod">Payment Method</label>
+                <select id="paymentMethod" name="paymentMethod" required onchange="toggleFields()">
+                    <option value="" disabled selected>Select an option</option>
+                    <option value="debitCard">Debit Card</option>
+                    <option value="creditCard">Credit Card</option>
+                    <option value="netBanking">Net Banking</option>
+                    <option value="upi">UPI</option>
+                    <option value="paypal">PayPal</option>
+                </select>
+            </div>
+
+            <div id="cardDetails" class="form-group" style="display: none;">
+                <label for="cardNumber">Card Number</label>
+                <input type="text" id="cardNumber" name="cardNumber" placeholder="Enter your card number" required>
+                <label for="expiryDate">Expiry Date</label>
+                <input type="text" id="expiryDate" name="expiryDate" placeholder="MM/YY" required>
+                <label for="cvv">CVV</label>
+                <input type="text" id="cvv" name="cvv" placeholder="Enter CVV" required>
+            </div>
+
+            <div id="bankDetails" class="form-group" style="display: none;">
+                <label for="bankName">Select Bank</label>
+                <select id="bankName" name="bankName">
+                    <option value="" disabled selected>Select your bank</option>
+                    <option value="SBI">State Bank of India</option>
+                    <option value="HDFC">HDFC Bank</option>
+                    <option value="ICICI">ICICI Bank</option>
+                    <option value="Axis">Axis Bank</option>
+                </select>
+            </div>
+
+            <div id="qr-container">
+                <p>Scan the QR code to pay:</p>
+                <img src="qr.jpg.png" alt="QR Code">
+            </div>
+
+            <button type="button" onclick="confirmPayment()">Pay Now</button>
+        </form>
+
+        <div id="confirmation">
+            <h2>Payment Successful!</h2>
+            <p>Your ticket has been booked. Thank you for using our service!</p>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2024 Delhi Ticket Booking System. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        function toggleFields() {
+            const paymentMethod = document.getElementById("paymentMethod").value;
+            document.getElementById("cardDetails").style.display = paymentMethod === "debitCard" || paymentMethod === "creditCard" ? "block" : "none";
+            document.getElementById("bankDetails").style.display = paymentMethod === "netBanking" ? "block" : "none";
+            document.getElementById("qr-container").style.display = paymentMethod === "upi" ? "block" : "none";
+        }
+
+        function confirmPayment() {
+            const paymentMethod = document.getElementById("paymentMethod").value;
+            if (!paymentMethod) {
+                alert("Please select a payment method.");
+                return;
+            }
+            document.getElementById("paymentForm").style.display = "none";
+            document.getElementById("confirmation").style.display = "block";
+        }
+    </script>
+
+</body>
+</html>

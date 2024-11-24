@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delhi Metro - Route and Fare</title>
+    <style>
+        /* General styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f7f9fc;
+            color: #333;
+        }
+
+        header {
+            background: linear-gradient(135deg, #007BFF, #5A67D8);
+            color: #fff;
+            padding: 40px 20px;
+        }
+
+        .header-container {
+            text-align: center;
+        }
+
+        .header-container h1 {
+            font-size: 3rem;
+            margin: 0;
+        }
+
+        .header-container p {
+            font-size: 1.4rem;
+            margin: 15px 0 0;
+        }
+
+        .main-content {
+            padding: 30px 10%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        form {
+            width: 100%;
+            background: #fff;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            font-size: 1rem;
+            color: #333;
+        }
+
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+            margin-top: 5px;
+        }
+
+        select:focus {
+            border-color: #007BFF;
+            outline: none;
+        }
+
+        .btn-search {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #28a745, #218838);
+            color: white;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+
+        .btn-search:hover {
+            background: linear-gradient(135deg, #218838, #1e7e34);
+        }
+
+        .results {
+            width: 100%;
+            margin-top: 30px;
+        }
+
+        .metro-result {
+            padding: 15px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 15px;
+        }
+
+        .metro-result h3 {
+            font-size: 1.4rem;
+            margin: 0;
+            color: #333;
+        }
+
+        .metro-result p {
+            margin: 5px 0;
+            color: #555;
+        }
+
+        .btn-book {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #007BFF;
+            color: #fff;
+            text-align: center;
+            font-size: 1rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .btn-book:hover {
+            background: #0056b3;
+        }
+
+        .qr-code {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .qr-code img {
+            max-width: 150px;
+        }
+
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <h1>Delhi Metro - Route and Fare</h1>
+            <p>Select your start and destination stations to view routes and fares</p>
+        </div>
+    </header>
+
+    <div class="main-content">
+        <form id="metroForm">
+            <h2>Check Metro Route and Fare</h2>
+            <div class="form-group">
+                <label for="start">Starting Station</label>
+                <select name="start" id="start" required>
+                    <option value="Rajiv Chowk">Rajiv Chowk</option>
+                    <option value="Kashmere Gate">Kashmere Gate</option>
+                    <option value="Chandni Chowk">Chandni Chowk</option>
+                    <option value="New Delhi">New Delhi</option>
+                    <option value="Hauz Khas">Hauz Khas</option>
+                    <option value="Noida City Centre">Noida City Centre</option>
+                    <option value="Dwarka Sector 21">Dwarka Sector 21</option>
+                    <option value="IGI Airport">IGI Airport</option>
+                    <option value="Vaishali">Vaishali</option>
+                    <option value="Janakpuri West">Janakpuri West</option>
+                    <option value="Botanical Garden">Botanical Garden</option>
+                    <option value="Lajpat Nagar">Lajpat Nagar</option>
+                    <option value="Saket">Saket</option>
+                    <option value="Mandi House">Mandi House</option>
+                    <option value="Karol Bagh">Karol Bagh</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="destination">Destination Station</label>
+                <select name="destination" id="destination" required>
+                    <option value="Rajiv Chowk">Rajiv Chowk</option>
+                    <option value="Kashmere Gate">Kashmere Gate</option>
+                    <option value="Chandni Chowk">Chandni Chowk</option>
+                    <option value="New Delhi">New Delhi</option>
+                    <option value="Hauz Khas">Hauz Khas</option>
+                    <option value="Noida City Centre">Noida City Centre</option>
+                    <option value="Dwarka Sector 21">Dwarka Sector 21</option>
+                    <option value="IGI Airport">IGI Airport</option>
+                    <option value="Vaishali">Vaishali</option>
+                    <option value="Janakpuri West">Janakpuri West</option>
+                    <option value="Botanical Garden">Botanical Garden</option>
+                    <option value="Lajpat Nagar">Lajpat Nagar</option>
+                    <option value="Saket">Saket</option>
+                    <option value="Mandi House">Mandi House</option>
+                    <option value="Karol Bagh">Karol Bagh</option>
+                </select>
+            </div>
+
+            <button type="button" class="btn-search" onclick="searchMetro()">Search Route</button>
+        </form>
+
+        <div class="results" id="results"></div>
+
+        <div class="qr-code" id="qrCode">
+            <h3>Booking Confirmed!</h3>
+            <img src="qr.jpg" alt="QR Code">
+            <p>Your metro ticket has been successfully booked.</p>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Delhi Metro - All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        function searchMetro() {
+            const start = document.getElementById('start').value;
+            const destination = document.getElementById('destination').value;
+
+            if (start === destination) {
+                alert("Starting and destination stations cannot be the same.");
+                return;
+            }
+
+            const results = document.getElementById('results');
+            results.innerHTML = ''; // Clear previous results
+
+            const distance = Math.floor(Math.random() * 15 + 1); // Random distance between 1 and 15 km
+            const fare = distance * 10; // Assume ₹10 per km
+
+            const metroResult = document.createElement('div');
+            metroResult.classList.add('metro-result');
+            metroResult.innerHTML = `
+                <h3>Route Details</h3>
+                <p><strong>From:</strong> ${start}</p>
+                <p><strong>To:</strong> ${destination}</p>
+                <p><strong>Distance:</strong> ${distance} km</p>
+                <p><strong>Fare:</strong> ₹${fare}</p>
+                <button class="btn-book" onclick="showQRCode()">Book Ticket</button>
+            `;
+            results.appendChild(metroResult);
+        }
+
+        function showQRCode() {
+            const qrCode = document.getElementById('qrCode');
+            qrCode.style.display = 'block';
+        }
+    </script>
+</body>
+</html>

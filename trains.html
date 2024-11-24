@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Train Booking - Delhi</title>
+    <style>
+        /* General styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f7f9fc;
+            color: #333;
+        }
+
+        header {
+            background: linear-gradient(135deg, #007BFF, #5A67D8);
+            color: #fff;
+            padding: 40px 20px;
+        }
+
+        .header-container {
+            text-align: center;
+        }
+
+        .header-container h1 {
+            font-size: 3rem;
+            margin: 0;
+        }
+
+        .header-container p {
+            font-size: 1.4rem;
+            margin: 15px 0 0;
+        }
+
+        .main-content {
+            padding: 30px 10%;
+        }
+
+        form {
+            background: #fff;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            font-size: 1rem;
+            color: #333;
+        }
+
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+            margin-top: 5px;
+        }
+
+        select:focus {
+            border-color: #007BFF;
+            outline: none;
+        }
+
+        .btn-search {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #28a745, #218838);
+            color: white;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+
+        .btn-search:hover {
+            background: linear-gradient(135deg, #218838, #1e7e34);
+        }
+
+        .results {
+            margin-top: 30px;
+        }
+
+        .train-result {
+            padding: 15px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 15px;
+        }
+
+        .train-result h3 {
+            font-size: 1.4rem;
+            margin: 0;
+            color: #333;
+        }
+
+        .train-result p {
+            margin: 5px 0;
+            color: #555;
+        }
+
+        .btn-book {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #007BFF;
+            color: #fff;
+            text-align: center;
+            font-size: 1rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .btn-book:hover {
+            background: #0056b3;
+        }
+
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <h1>Train Booking - Delhi</h1>
+            <p>Select a route and book your train tickets easily</p>
+        </div>
+    </header>
+
+    <div class="main-content">
+        <form id="trainForm">
+            <h2>Check Train Routes and Fare</h2>
+            <div class="form-group">
+                <label for="routeType">Route Type</label>
+                <select name="routeType" id="routeType" onchange="updateStations()" required>
+                    <option value="intercity">Intercity Routes</option>
+                    <option value="national">National Routes</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="start">Starting Station</label>
+                <select name="start" id="start" required></select>
+            </div>
+
+            <div class="form-group">
+                <label for="destination">Destination Station</label>
+                <select name="destination" id="destination" required></select>
+            </div>
+
+            <button type="button" class="btn-search" onclick="searchTrains()">Search Trains</button>
+        </form>
+
+        <div class="results" id="results"></div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Train Booking - All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        const intercityStations = [
+            "New Delhi", "Ghaziabad", "Meerut", "Faridabad", "Panipat",
+            "Sonipat", "Rohtak", "Noida", "Gurgaon", "Palwal"
+        ];
+
+        const nationalStations = [
+            "New Delhi", "Mumbai", "Kolkata", "Chennai", "Bangalore",
+            "Hyderabad", "Jaipur", "Lucknow", "Ahmedabad", "Pune"
+        ];
+
+        function updateStations() {
+            const routeType = document.getElementById('routeType').value;
+            const startSelect = document.getElementById('start');
+            const destinationSelect = document.getElementById('destination');
+
+            const stations = routeType === "intercity" ? intercityStations : nationalStations;
+
+            startSelect.innerHTML = '';
+            destinationSelect.innerHTML = '';
+
+            stations.forEach(station => {
+                const option = `<option value="${station}">${station}</option>`;
+                startSelect.innerHTML += option;
+                destinationSelect.innerHTML += option;
+            });
+        }
+
+        function searchTrains() {
+            const start = document.getElementById('start').value;
+            const destination = document.getElementById('destination').value;
+
+            if (start === destination) {
+                alert("Starting and destination stations cannot be the same.");
+                return;
+            }
+
+            const results = document.getElementById('results');
+            results.innerHTML = ''; // Clear previous results
+
+            const trainName = `Train-${Math.floor(Math.random() * 1000)}`;
+            const fare = Math.floor(Math.random() * 200 + 100); // Random fare between ₹100 and ₹300
+
+            const trainResult = document.createElement('div');
+            trainResult.classList.add('train-result');
+            trainResult.innerHTML = `
+                <h3>Train Details</h3>
+                <p><strong>Train:</strong> ${trainName}</p>
+                <p><strong>From:</strong> ${start}</p>
+                <p><strong>To:</strong> ${destination}</p>
+                <p><strong>Fare:</strong> ₹${fare}</p>
+                <button class="btn-book" onclick="bookTicket()">Book Ticket</button>
+            `;
+            results.appendChild(trainResult);
+        }
+
+        function bookTicket() {
+            window.location.href = "payment.html"; // Redirect to the payment page
+        }
+
+        // Initialize with default intercity stations
+        updateStations();
+    </script>
+</body>
+</html>
